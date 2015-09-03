@@ -5,6 +5,19 @@ describe('Controller: MainCtrl', function () {
   // load the controller's module
   beforeEach(module('mytodoApp'));
 
+  beforeEach( function() {
+    module('mytodoApp');
+
+    // LocalStorage mock.
+    spyOn(localStorage, 'getItem').and.callFake(function(key) {
+        return store[key];
+    });
+    Object.defineProperty(sessionStorage, "setItem", { writable: true });
+    spyOn(localStorage, 'setItem').and.callFake(function(key, value) {
+        store[key] = value;
+    });
+  });
+
   var MainCtrl,
     scope;
 
